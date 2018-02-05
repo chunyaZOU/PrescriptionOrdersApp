@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sy.prescription.SignActivity">
+
+    <include layout="@layout/header_view" />
+
+    <EditText
+        android:id="@+id/etAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etPwd"
+        android:layout_margin="20dp"
+        android:background="@drawable/sign_bg"
+        android:ems="10"
+        android:hint="@string/account"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:text="shudian1" />
+
+    <EditText
+        android:id="@+id/etPwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/sign_bg"
+        android:ems="10"
+        android:hint="@string/pwd"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:text="admin" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        style="@style/text_white_22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPwd"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/selector_sign_btn_bg"
+        android:padding="10dp"
+        android:text="@string/sign_in_now" />
+</RelativeLayout>

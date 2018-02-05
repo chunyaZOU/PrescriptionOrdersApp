@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_print_manage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_window"
+    android:orientation="vertical"
+    tools:context="com.sy.prescription.PrintManageActivity">
+    <include layout="@layout/header_view" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:text="打印儿童票"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvErtong" />
+
+        <Button
+            android:text="打印亲子票"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvQinzi" />
+
+        <Button
+            android:text="打印成人票"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/tvDanren" />
+
+        <Button
+            android:text="打印双人票"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvShuangren" />
+
+        <Button
+            android:text="打印三人票"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvSanren" />
+
+        <Button
+            android:text="重打最后一张票"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvZuihou" />
+
+        <Button
+            android:text="切换销售模式"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvStore" />
+
+        <Button
+            android:text="切换快速出票模式"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvKuaisu" />
+
+        <Button
+            android:text="切换打印机"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/tvPrint" />
+
+
+    </LinearLayout>
+</LinearLayout>

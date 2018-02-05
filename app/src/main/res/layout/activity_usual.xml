@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sy.prescription.UsualActivity">
+
+    <include layout="@layout/header_view" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.ygs.pullrefreshloadmore.PullRefreshLoadMore
+            android:id="@+id/lv_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/background_window"
+            android:dividerHeight="1dp"
+            android:fadingEdgeLength="0dp" />
+
+
+        <com.ygs.pullrefreshloadmore.PullRefreshLoadMore
+            android:id="@+id/lv_medical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/background_window"
+            android:dividerHeight="1dp"
+            android:fadingEdgeLength="0dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="@dimen/space_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/space_10"
+            android:text="数量：100" />
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="@dimen/space_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_sign_btn_no_conor_bg"
+            android:gravity="center"
+            android:padding="@dimen/space_10"
+            android:text="提交"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

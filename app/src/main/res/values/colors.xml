@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#48daa9</color>
+    <color name="colorPrimaryDark">#29CD98</color>
+    <!-- 头部导航 -->
+    <color name="theme">#ff359ce7</color>
+    <color name="white">#ffffffff</color>
+    <color name="white_translucent">#50cccccc</color>
+    <color name="black">#ff000000</color>
+    <color name="black_light">#60000000</color>
+    <color name="nav_gray">#fafafa</color>
+    <color name="nav_text_blue">#33ccff</color>
+    <color name="blue">#00a0f0</color>
+    <!-- 字体颜色 -->
+    <color name="text_red_light">#ffff0000</color>
+    <color name="text_black">#ff323232</color>
+    <color name="text_yellow">#ff8822</color>
+    <color name="txt_yellow">#ff8933</color>
+    <color name="text_gray">#ff646464</color>
+    <color name="text_gray_light">#ff787878</color>
+    <color name="text_green">#0CC115</color>
+    <color name="text_light">#60000000</color>
+    <color name="text_light_33">#33000000</color>
+    <color name="background_window">#FFE5E5E5</color>
+    <color name="text_red">#ffff0000</color>
+    <color name="text_hint">#ff9a9a9a</color>
+    <color name="text_blue_light">#c0359de7</color>
+    <color name="text_red_light_1">#E60E38</color>
+    <!-- 背景色 -->
+    <color name="bg_grey">#50b3b3b3</color>
+    <color name="top_bg_color">#18B4ED</color>
+    <color name="devide_line">#CBCED2</color>
+    <color name="departure">#083f65</color>
+    <color name="select_holit">#0075a9</color>
+    <color name="gold">#b89766</color>
+    <color name="gray">#737373</color>
+    <color name="red">#FF0000</color>
+    <color name="slidemenu_bg">#ff393939</color>
+    <color name="chat_item_bg">#E0E0E0</color>
+    <color name="gray_font">#818181</color>
+    <color name="gray_bg_light">#45000000</color>
+    <color name="item_bg">#ffececec</color>
+    <!-- 底部导航 -->
+    <color name="bottommenu_bg">#fff9f9f9</color>
+    <color name="text_bottommenu_normal">#ff5c5b5b</color>
+    <color name="bottommenu_line">#99e7e7e7</color>
+    <color name="talk_bg">#ffe3e3e3</color>
+    <color name="talk_bg_now">#fff2f2f2</color>
+    <!-- 扫描条码zxing -->
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c000ff00</color>
+    <color name="result_view">#b0000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <!-- 首页 -->
+    <color name="dot_blur_bg">#ff3d4145</color>
+    <color name="dot_focus_bg">#ff007aff</color>
+    <color name="point_select">#ff5c5b5b</color>
+    <color name="point">#ffe3e3e3</color>
+    <color name="index_bg">#fff0f0f0</color>
+    <color name="text_blue">#33CCFF</color>
+    <color name="text_green_light">#9942c25c</color>
+    <color name="text_green_light_normal">#ff00a600</color>
+    <color name="text_blue_light_out">#ff46b0ef</color>
+    <color name="select_cover">#44ffffff</color>
+    <!-- 聊天不分设置 -->
+    <color name="left_drawer_no_login_tip_text">#ffb8b8b8</color>
+    <color name="left_drawer_user_name">#ffd4d4d4</color>
+    <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
+    <color name="left_drawer_item_text_pressed">#ff4e4e4e</color>
+    <color name="left_drawer_item_text_tip">#fffe3232</color>
+    <color name="left_drawer_item_bg_normal">#ff393939</color>
+    <color name="left_drawer_item_bg_pressed">#ff292929</color>
+    <color name="left_drawer_item_line">#ff272727</color>
+    <color name="left_drawer_offline_line">#ff4bbff6</color>
+    <color name="left_drawer_offline_hint">#ff6699cc</color>
+    <color name="left_drawer_night_mode_text">#ffb8b8b8</color>
+    <color name="list_item_bg_normal">#ffffff</color>
+    <color name="list_item_bg_pressed">#0033FF</color>
+    <color name="setting_item_text">#ff333333</color>
+
+    <color name="titlebar_bg">#222222</color>
+    <color name="transparent1">#b000</color>
+    <color name="select_error">#eb6161</color>
+    <color name="select_select">#c6c6c6</color>
+    <color name="select_answered">#60adde</color>
+    <color name="right_answer">#009100</color>
+    <color name="class_orange">#ff9900</color>
+    <color name="class_orange_light">#fff4e7</color>
+    <color name="class_type_blue">#33ccff</color>
+    <color name="class_line_gray">#cccccc</color>
+    <color name="custom_bar_black">#666666</color>
+    <color name="referrals_success_green">#0cc115</color>
+    <color name="referrals_error_red">#ff3333</color>
+    <color name="course_type_yellow">#ff8822</color>
+
+    <color name="syb_plan_bg">#f4f4f4</color>
+    <color name="syb_plan_text_blue">#1083b9</color>
+    <color name="syb_plan_text_black">#242424</color>
+    <color name="home_bottom_navigator">#1f72ce</color>
+    <color name="home_bottom_navigator1">#2072cf</color>
+
+    <color name="text_cash">#1dc75d</color>
+    <color name="text_card">#fa515d</color>
+    <color name="text_refund">#35ade8</color>
+    <color name="text_device">#ffa300</color>
+
+    <color name="sign_red">#f85e56</color>
+    <color name="sign_out_yellow">#ff7300</color>
+    <color name="select_blue">#0093dd</color>
+    <color name="member_green">#64d488</color>
+
+
+    <color name="actionsheet_blue">#239ff2</color>
+    <color name="actionsheet_red">#de3232</color>
+    <color name="actionsheet_black">#333333</color>
+
+    <color name="app_theme_gray">#999999</color>
+
+</resources>
