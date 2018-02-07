@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends BaseFragment implements View.OnClickListener,PullRefreshLoadMore.OnLoadMoreListener,PullRefreshLoadMore.OnRefreshListener {
+public class SearchFragment extends BaseFragment implements View.OnClickListener, PullRefreshLoadMore.OnLoadMoreListener, PullRefreshLoadMore.OnRefreshListener {
 
 
     @BindView(R.id.tv_start_date)
@@ -51,7 +51,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     @BindView(R.id.lv_orders)
     PullRefreshLoadMore lvOrders;
 
-    private boolean isStartDate=true;
+    private boolean isStartDate = true;
 
     private OrderAdapter mAdapter;
     private List<OrderInfo> mOrderList;
@@ -97,30 +97,25 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initUI() {
+        mOrderList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            OrderInfo orderInfo=new OrderInfo();
-            orderInfo.cardNum="100000"+i;
-            orderInfo.isSuccess=i%2==0;
-            orderInfo.commission=i*10;
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.cardNum = "100000" + i;
+            orderInfo.isSuccess = i % 2 == 0;
+            orderInfo.commission = i * 10;
             mOrderList.add(orderInfo);
         }
-        mOrderList=new ArrayList<>();
-        mAdapter=new OrderAdapter(getActivity(),mOrderList);
+
+
+        mAdapter = new OrderAdapter(getActivity(), mOrderList);
         lvOrders.setAdapter(mAdapter);
-    }
-
-
-    /**
-     * 5.0以上全屏，将搜索框下移一个statusbar高度
-     */
-    private void initStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //ScreenUtil.setMargins(llSearch, 0, ScreenUtil.getStatusBarHeight(getActivity()), 0, 0);
-        }
-    }
-
-    private void initTabLayout() {
-
+        lvOrders.setOnRefreshListener(this);
+        lvOrders.setOnLoadListener(this);
+        lvOrders.setCanLoadMore(true);
+        lvOrders.setCanRefresh(true);
+        lvOrders.setAutoLoadMore(true);
+        // 是否自动载入第一页
+        lvOrders.setDoLoadOnUIChanged();
     }
 
 
@@ -173,18 +168,18 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @OnClick(R.id.tv_start_date)
     public void onTvStartDateClicked() {
-        isStartDate=true;
+        isStartDate = true;
         showDate();
     }
 
 
     @OnClick(R.id.tv_end_date)
     public void onTvEndDateClicked() {
-        isStartDate=false;
+        isStartDate = false;
         showDate();
     }
 
-    private void showDate(){
+    private void showDate() {
         //获取当前年月日
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);//当前年
@@ -204,10 +199,10 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         public void onDateSet(DatePicker view, int years, int monthOfYear, int dayOfMonth) {
             // TODO: 2017/8/17 这里有选择后的日期回调,根据具体要求写不同的代码,我就直接打印了
             //Log.i(TAG, "年" +years+ "月" +monthOfYear+ "日"+dayOfMonth);//这里月份是从0开始的,所以monthOfYear的值是0时就是1月.以此类推,加1就是实际月份了.
-            String date=years+"/"+(monthOfYear+1)+"/"+dayOfMonth;
-            if(isStartDate){
+            String date = years + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+            if (isStartDate) {
                 tvStartDate.setText(date);
-            }else {
+            } else {
                 tvEndDate.setText(date);
             }
         }
@@ -220,15 +215,26 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @OnClick(R.id.tv_success)
     public void onTvSuccessClicked() {
+        if (mAdapter.getmSuccessFlag() == OrderAdapter.FLAG_ALL || mAdapter.getmSuccessFlag() == OrderAdapter.FLAG_N) {
+            mAdapter.setmSuccessFlag(OrderAdapter.FLAG_Y);
+            tvSuccess.setText("是否成交(是)");
+        } else if (mAdapter.getmSuccessFlag() == OrderAdapter.FLAG_Y) {
+            mAdapter.setmSuccessFlag(OrderAdapter.FLAG_N);
+            tvSuccess.setText("是否成交(否)");
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onRefresh() {
-
+        mAdapter.setmSuccessFlag(OrderAdapter.FLAG_ALL);
+        tvSuccess.setText("是否成交");
+        lvOrders.onRefreshComplete();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoadMore() {
-
+        lvOrders.onLoadMoreComplete();
     }
 }

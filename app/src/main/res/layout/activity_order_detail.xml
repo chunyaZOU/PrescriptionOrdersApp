@@ -8,6 +8,7 @@
 
 
     <include layout="@layout/header_view" />
+
     <GridView
         android:id="@+id/gv"
         android:layout_width="match_parent"
@@ -76,11 +77,18 @@
         android:id="@+id/lv_medical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@color/background_window"
         android:dividerHeight="1dp"
         android:fadingEdgeLength="0dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_light" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,7 +102,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="@dimen/space_10"
-            android:text="数量：100" />
+            android:text="数量：0"
+            android:textSize="@dimen/space_16" />
 
         <TextView
             android:id="@+id/tv_submit"
@@ -105,7 +114,8 @@
             android:gravity="center"
             android:padding="@dimen/space_10"
             android:text="提交"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/space_16" />
 
     </LinearLayout>
 

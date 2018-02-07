@@ -22,9 +22,14 @@ import butterknife.ButterKnife;
 
 public class OrderAdapter extends BaseAdapter {
 
+    public static final int FLAG_ALL=0;
+    public static final int FLAG_Y=1;
+    public static final int FLAG_N=2;
+
     private Context mContext;
     private List<OrderInfo> mData;
     private LayoutInflater mInflate;
+    private int mSuccessFlag=FLAG_ALL;
 
     public OrderAdapter(Context context, List<OrderInfo> mOrderList) {
         mContext = context;
@@ -48,26 +53,40 @@ public class OrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder=null;
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        ViewHolder holder = null;
         if (view == null) {
-            view = mInflate.inflate(R.layout.view_order_layout, viewGroup);
-            holder=new ViewHolder(view);
+            view = mInflate.inflate(R.layout.view_order_layout, null);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-        OrderInfo orderInfo=mData.get(i);
+        final OrderInfo orderInfo = mData.get(i);
         holder.tvOrderNum.setText(orderInfo.cardNum);
-        holder.tvSuccess.setText(orderInfo.isSuccess?"是":"否");
-        holder.tvCommission.setText(orderInfo.commission+"");
+        if (mSuccessFlag == 0) {
+            holder.tvSuccess.setText(orderInfo.isSuccess ? "是" : "否");
+        } else if (mSuccessFlag == 1) {
+            holder.tvSuccess.setText("是");
+        } else if (mSuccessFlag == 2) {
+            holder.tvSuccess.setText("否");
+        }
+        holder.tvCommission.setText(orderInfo.commission + "");
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderDetailActivity.startAct(mContext);
+                OrderDetailActivity.startAct(mContext,orderInfo.cardNum);
             }
         });
         return view;
+    }
+
+    public int getmSuccessFlag() {
+        return mSuccessFlag;
+    }
+
+    public void setmSuccessFlag(int mSuccessFlag) {
+        this.mSuccessFlag = mSuccessFlag;
     }
 
     static class ViewHolder {

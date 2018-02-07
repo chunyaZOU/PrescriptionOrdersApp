@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.sy.prescription.MainActivity;
 import com.sy.prescription.R;
 import com.sy.prescription.fragment.PrescriptionFragment;
 
@@ -25,11 +26,13 @@ import butterknife.ButterKnife;
 
 public class PhotoAdapter extends BaseAdapter {
     private List<String> mDatas;
-    private Fragment mFragment;
+    private Context mContext;
+    private LayoutInflater mInflate;
 
-    public PhotoAdapter(List<String> data, Fragment fragment) {
+    public PhotoAdapter(List<String> data, Context context) {
         mDatas = data;
-        this.mFragment = fragment;
+        this.mContext = context;
+        mInflate = LayoutInflater.from(context);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class PhotoAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
         if (view == null) {
-            view = LayoutInflater.from(((PrescriptionFragment) mFragment).getActivity()).inflate(R.layout.view_photo_item, null);
+            view = mInflate.inflate(R.layout.view_photo_item, null);
             holder = new ViewHolder(view);
             view.setTag(holder);
         } else {
@@ -64,12 +67,16 @@ public class PhotoAdapter extends BaseAdapter {
         } else {
             holder.tvTakePhoto.setVisibility(View.GONE);
             holder.img.setVisibility(View.VISIBLE);
-            holder.img.setImageURI(Uri.fromFile(new File(mDatas.get(i))));
+            if (mDatas.get(i).contains("http")) {
+                holder.img.setImageURI(Uri.parse(mDatas.get(i)));
+            } else {
+                holder.img.setImageURI(Uri.fromFile(new File(mDatas.get(i))));
+            }
         }
         holder.tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PrescriptionFragment) mFragment).chooseHeadImage();
+                ((PrescriptionFragment) ((MainActivity) mContext).getCurrentFragment()).chooseHeadImage();
             }
         });
         return view;

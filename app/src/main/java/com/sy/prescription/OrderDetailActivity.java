@@ -3,11 +3,15 @@ package com.sy.prescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.cloudcommune.yhonline.imgpicker.bean.ImageItem;
 import com.sy.prescription.adapter.MedicalAdapter;
+import com.sy.prescription.adapter.PhotoAdapter;
 import com.sy.prescription.model.MedicalInfo;
+import com.sy.prescription.util.ToastUtil;
 import com.ygs.pullrefreshloadmore.PullRefreshLoadMore;
 
 import java.util.ArrayList;
@@ -17,7 +21,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OrderDetailActivity extends BaseActivity implements PullRefreshLoadMore.OnRefreshListener,PullRefreshLoadMore.OnLoadMoreListener {
+import static com.sy.prescription.fragment.PrescriptionFragment.TAKE_PHOTO;
+
+public class OrderDetailActivity extends BaseActivity implements PullRefreshLoadMore.OnRefreshListener, PullRefreshLoadMore.OnLoadMoreListener {
 
     @BindView(R.id.gv)
     GridView gv;
@@ -29,9 +35,22 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
     TextView tvUsual;
     @BindView(R.id.lv_medical)
     PullRefreshLoadMore lvMedical;
+    @BindView(R.id.tvLeft)
+    TextView tvLeft;
+    @BindView(R.id.tvMiddle)
+    TextView tvMiddle;
+    @BindView(R.id.tv_num)
+    TextView tvNum;
+    @BindView(R.id.tv_submit)
+    TextView tvSubmit;
 
     private List<MedicalInfo> mMedicalList;
     private MedicalAdapter mAdapter;
+
+    private PhotoAdapter mPhotoAdapter;
+    private List<String> mImgPaths;
+
+    private ArrayList<ImageItem> images = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +60,25 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
         initUI();
     }
 
-    private void initUI(){
-        mMedicalList=new ArrayList<>();
-        mAdapter=new MedicalAdapter(this,mMedicalList);
+    private void initUI() {
+
+        mImgPaths = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            mImgPaths.add("http://a.hiphotos.baidu.com/image/h%3D300/sign=71f6f27f2c7f9e2f6f351b082f31e962/500fd9f9d72a6059f550a1832334349b023bbae3.jpg");
+        }
+        mPhotoAdapter = new PhotoAdapter(mImgPaths, this);
+        gv.setAdapter(mPhotoAdapter);
+
+
+        initNav(getIntent().getStringExtra("title"));
+        mMedicalList = new ArrayList<>();
+        mAdapter = new MedicalAdapter(this, mMedicalList);
         lvMedical.setAdapter(mAdapter);
     }
 
     @OnClick(R.id.tv_scan)
     public void onTvScanClicked() {
-        CaptureActivity.startAct(this,"",0);
+        CaptureActivity.startAct(this, "扫描");
     }
 
     @OnClick(R.id.tv_usual)
@@ -67,8 +96,49 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
 
     }
 
-    public static void startAct(Context context){
-        Intent intent=new Intent(context,OrderDetailActivity.class);
+    public void setTotalNum(int totalNum) {
+        tvNum.setText("数量:" + totalNum);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CaptureActivity.SCAN_FLAG:
+                    MedicalInfo info = new MedicalInfo();
+                    info.name = data.getStringExtra("num");
+                    mMedicalList.add(info);
+                    mAdapter.setTotalNum0();
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                case UsualActivity.FLAG_USUAL:
+                    ArrayList<MedicalInfo> medicalInfos = data.getParcelableArrayListExtra("medical_list");
+                    mMedicalList.addAll(medicalInfos);
+                    mAdapter.setTotalNum0();
+                    mAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    }
+
+    @OnClick({R.id.tvLeft, R.id.tv_submit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tvLeft:
+                break;
+            case R.id.tv_submit:
+                if (mMedicalList.size() == 0) {
+                    ToastUtil.show("未选择药品");
+                    return;
+                }
+                break;
+        }
+    }
+
+    public static void startAct(Context context, String cardNum) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        intent.putExtra("title", cardNum);
         context.startActivity(intent);
     }
 }

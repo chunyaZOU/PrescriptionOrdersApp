@@ -25,11 +25,7 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.sy.prescription.config.IMApplication;
-import com.sy.prescription.model.CouponInfo;
 import com.sy.prescription.util.DensityUtils;
-import com.sy.prescription.util.GsonUtil;
-import com.sy.prescription.util.HttpRequest;
-import com.sy.prescription.util.Urls;
 import com.sy.prescription.zxing.camera.CameraManager;
 import com.sy.prescription.zxing.decode.DecodeThread;
 import com.sy.prescription.zxing.utils.BeepManager;
@@ -38,8 +34,7 @@ import com.sy.prescription.zxing.utils.InactivityTimer;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.security.PublicKey;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,8 +42,7 @@ import butterknife.ButterKnife;
 public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callback {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
-    public static final int PAY_FLAG = 0;//收款
-    public static final int REFUND_FLAG = 1;//退款
+    public static final int SCAN_FLAG = 0;
     @BindView(R.id.capture_preview)
     SurfaceView capturePreview;
     @BindView(R.id.capture_crop_view)
@@ -95,15 +89,7 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
     private String scanResult;
     private Dialog dialog, backDialog;
     private String title;
-    private String amount;
-    private int type;
-    private int tags;
     private boolean isScaned, isFinishScan;//被扫瞄
-    //private CapturePresenter capturePresenter;
-    private int which;
-    private String orderSn = "";
-    private String reppasswd = ""; //重试单号
-    private int reCount = 0; //重试次数
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -112,7 +98,6 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_capture);
         ButterKnife.bind(this);
-        //capturePresenter = new CapturePresenter(this);
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
         getIntentData();
@@ -126,6 +111,7 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
         imgScanLine.startAnimation(animation);
         capturePreview.getHolder().addCallback(this);
     }
+
     private void initView() {
         imgInitCode.setOnClickListener(clickListener);
         imgScan.setOnClickListener(clickListener);
@@ -135,165 +121,23 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
 
     private void getIntentData() {
         title = getIntent().getStringExtra("title");
-        tags = getIntent().getIntExtra("tags",0);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.tvLeft:
-                    finish();
-                    break;
                 case R.id.imgInitCode:
                     break;
                 case R.id.imgScan:
-                    if (tags == 1){
-                        tvState.setText("请扫描会员卡号");
-                    }else{
-                        tvState.setText("请扫描消费者的门票号完成验证");
-                    }
+                    tvState.setText("请保持适当距离进行扫描");
                     isScaned = false;
-                   setScanView();
+                    setScanView();
                     break;
             }
         }
     };
 
-
-    private void CheckTicket(String ticket) {
-        Map<String, String> params = new HashMap<>();
-        params.put("a", "verify");
-        params.put("password", ticket);
-        reppasswd =ticket;
-        reCount =0;
-        HttpRequest.HttpPost(Urls.API_URL, Urls.API_VERSION_1, Urls.Method.CHECK_COUPON, Urls.MethodType.POST, params, httpCallback);
-    }
-
-    private void CheckTicketDo(String ticket) {
-        Map<String, String> params = new HashMap<>();
-        params.put("a", "use");
-        params.put("password", ticket);
-        HttpRequest.HttpPost(Urls.API_URL, Urls.API_VERSION_1, Urls.Method.CHECK_COUPON, Urls.MethodType.POST, params, httpDoCallback);
-    }
-
-
-    private void UserChange(String card_id) {
-        Map<String, String> params = new HashMap<>();
-        params.put("a", "UserChange");
-        params.put("card_id", card_id);
-        HttpRequest.HttpPost(Urls.API_URL, Urls.API_VERSION_1, Urls.Method.CHECK_COUPON, Urls.MethodType.POST, params, httpDoCallback);
-    }
-
-    private HttpRequest.HttpCallback httpDoCallback = new HttpRequest.HttpCallback() {
-        @Override
-        public void httpSuccess(String response) {
-            restartPreviewAfterDelay(1000);//再次扫描
-            hideToastAnim();
-            CouponInfo CouInfo = GsonUtil.json2T(response, CouponInfo.class);
-            if (CouInfo.getStatus() != 1){
-                if (reCount < 3) {
-                    CheckTicketDo(reppasswd);
-                    reCount++;
-                }
-            }
-        }
-        @Override
-        public void httpFail(String response) {
-            //重试销毁次数3次，三次后就释放了不在占用资源了
-            if (reCount < 3) {
-                CheckTicketDo(reppasswd);
-                reCount++;
-            }
-        }
-    };
-
-
-    private HttpRequest.HttpCallback httpCallback = new HttpRequest.HttpCallback() {
-        @Override
-        public void httpSuccess(String response) {
-            restartPreviewAfterDelay(1500);//再次扫描
-          //  etFormNum.setText("");
-            hideToastAnim();
-            CouponInfo CouInfo = GsonUtil.json2T(response, CouponInfo.class);
-            if (CouInfo.getStatus() == 1){
-                PlayTicketType(CouInfo.getData().getType(),CouInfo.getData().getPassword(),CouInfo.getMsg());
-            }else{
-                tvState.setText(CouInfo.getMsg());
-            }
-        }
-
-        @Override
-        public void httpFail(String response) {
-            restartPreviewAfterDelay(1000);//再次扫描
-            hideToastAnim();
-            try {
-                CouponInfo CouInfo = GsonUtil.json2T(response, CouponInfo.class);
-                PlayTicketType(0,"",CouInfo.getMsg());
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    };
-
-
-    //  1 儿童票 2亲子票 3单人票 4双人票 5三人票 6 团体票  7 一周票
-    //扫别人成功后提交信息
-    //让别人扫也提交信息 并根据返回值生成二维码
-    private void PlayTicketType(int TicketType,final String passwd,String err) {
-        boolean is_success ;
-        switch (TicketType) {
-            case 1:
-                beepManager.playBeepSound(R.raw.ertongpiao);//三恩票
-                if (err=="") err ="验证成功，儿童票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 2:
-                beepManager.playBeepSound(R.raw.qinzipiao);//声音与振动
-                if (err=="") err ="验证成功，亲子票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 3:
-                beepManager.playBeepSound(R.raw.danrenpiao);//声音与振动
-                if (err=="")  err ="验证成功，单人票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 4:
-                beepManager.playBeepSound(R.raw.shuangrenpiao);//声音与振动
-                if (err=="")  err ="验证成功，双人票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 5:
-                beepManager.playBeepSound(R.raw.sanrenpiao);//三恩票
-                if (err=="")  err ="验证成功，三人票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 6:
-                beepManager.playBeepSound(R.raw.tuantipiao);//三恩票
-                if (err=="")  err ="验证成功，团体票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            case 7:
-                beepManager.playBeepSound(R.raw.yizhoupiao);//三恩票
-                if (err=="")  err ="验证成功，一周票";
-                tvState.setText(err);
-                is_success = true;
-                break;
-            default:
-                beepManager.playBeepSound(R.raw.wuxiaopiao);//声音与振动
-                if (err=="")  err ="验证成功，无效票";
-                tvState.setText(err);
-                is_success = false;
-                break;
-        }
-        if (is_success) new Thread(new Runnable() { @Override  public void run() {reppasswd = passwd;CheckTicketDo(passwd);}}).start();
-    }
 
     private void setScanView() {
         llCode.setVisibility(View.GONE);
@@ -315,7 +159,7 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
         }
         inactivityTimer.onResume();
         if (!isScaned) {
-           // initDialog();
+            // initDialog();
         }
     }
 
@@ -386,14 +230,10 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
         scanResult = rawResult.getText();
-        if (tags == 1){
-            restartPreviewAfterDelay(3000);//再次扫描
-            showToastAnim("正在查询...");
-
-        }else{
-            showToastAnim("正在验证...");
-            CheckTicket(scanResult);
-        }
+        Intent intent = new Intent();
+        intent.putExtra("num", scanResult);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
@@ -505,11 +345,10 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
         return super.onKeyDown(keyCode, event);
     }
 
-    public static void startAct(Context context, String title,int tags) {
+    public static void startAct(Context context, String title) {
         Intent intent = new Intent(context, CaptureActivity.class);
         intent.putExtra("title", title);
-        intent.putExtra("tags", tags);
-        context.startActivity(intent);
+        ((OrderDetailActivity) context).startActivityForResult(intent, SCAN_FLAG);
         ((Activity) context).overridePendingTransition(R.anim.in_from_right, R.anim.out_from_right);
     }
 }

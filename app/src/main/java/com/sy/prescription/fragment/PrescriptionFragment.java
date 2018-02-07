@@ -108,7 +108,7 @@ public class PrescriptionFragment extends BaseFragment {
     private void initUI() {
         mImgPaths = new ArrayList<>();
         mImgPaths.add(TAKE_PHOTO);
-        mAdapter = new PhotoAdapter(mImgPaths, this);
+        mAdapter = new PhotoAdapter(mImgPaths, getActivity());
         gv.setAdapter(mAdapter);
     }
 

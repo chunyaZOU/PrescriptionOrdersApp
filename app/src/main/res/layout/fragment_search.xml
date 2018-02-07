@@ -60,9 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/sign_bg"
-            android:padding="@dimen/space_10"
-            android:inputType="number"
             android:hint="输入卡号"
+            android:inputType="number"
+            android:padding="@dimen/space_10"
             android:textSize="@dimen/space_16" />
 
         <TextView
@@ -76,7 +76,8 @@
             android:paddingLeft="@dimen/space_16"
             android:paddingRight="@dimen/space_16"
             android:paddingTop="@dimen/space_10"
-            android:text="查询" />
+            android:text="查询"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
@@ -108,12 +109,12 @@
         <TextView
             android:id="@+id/tv_success"
             android:layout_width="@dimen/space_0"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_10"
             android:layout_marginRight="@dimen/space_10"
-            android:padding="@dimen/space_5"
+            android:layout_weight="1"
             android:gravity="center"
+            android:padding="@dimen/space_5"
             android:text="是否成交"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/space_16" />

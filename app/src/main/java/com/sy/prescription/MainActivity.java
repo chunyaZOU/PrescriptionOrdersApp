@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener,BaseFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, BaseFragment.OnFragmentInteractionListener {
 
 
     @BindView(R.id.tab)
@@ -92,5 +92,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public Fragment getCurrentFragment() {
+        return mfragments.get(vp.getCurrentItem());
     }
 }
