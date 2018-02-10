@@ -2,14 +2,14 @@ package com.sy.prescription.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.sy.prescription.MainActivity;
 import com.sy.prescription.R;
 import com.sy.prescription.fragment.PrescriptionFragment;
@@ -68,9 +68,9 @@ public class PhotoAdapter extends BaseAdapter {
             holder.tvTakePhoto.setVisibility(View.GONE);
             holder.img.setVisibility(View.VISIBLE);
             if (mDatas.get(i).contains("http")) {
-                holder.img.setImageURI(Uri.parse(mDatas.get(i)));
+                Glide.with(mContext).load(mDatas.get(i)).into(holder.img);
             } else {
-                holder.img.setImageURI(Uri.fromFile(new File(mDatas.get(i))));
+                Glide.with(mContext).load(new File(mDatas.get(i))).into(holder.img);
             }
         }
         holder.tvTakePhoto.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class PhotoAdapter extends BaseAdapter {
 
     class ViewHolder {
         @BindView(R.id.img)
-        SimpleDraweeView img;
+        ImageView img;
         @BindView(R.id.tv_take_photo)
         TextView tvTakePhoto;
 

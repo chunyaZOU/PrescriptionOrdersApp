@@ -56,7 +56,8 @@
             android:theme="@style/Transparent" />
         <activity android:name=".CaptureActivity" />
         <activity android:name=".OrderDetailActivity" />
-        <activity android:name=".UsualActivity"></activity>
+        <activity android:name=".UsualActivity" />
+        <activity android:name=".PhotoActivity"></activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -21,9 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.sy.prescription.fragment.PrescriptionFragment.TAKE_PHOTO;
 
-public class OrderDetailActivity extends BaseActivity implements PullRefreshLoadMore.OnRefreshListener, PullRefreshLoadMore.OnLoadMoreListener {
+public class OrderDetailActivity extends BaseActivity implements PullRefreshLoadMore.OnRefreshListener, PullRefreshLoadMore.OnLoadMoreListener, AdapterView.OnItemClickListener {
 
     @BindView(R.id.gv)
     GridView gv;
@@ -48,7 +48,7 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
     private MedicalAdapter mAdapter;
 
     private PhotoAdapter mPhotoAdapter;
-    private List<String> mImgPaths;
+    private ArrayList<String> mImgPaths;
 
     private ArrayList<ImageItem> images = null;
 
@@ -68,6 +68,7 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
         }
         mPhotoAdapter = new PhotoAdapter(mImgPaths, this);
         gv.setAdapter(mPhotoAdapter);
+        gv.setOnItemClickListener(this);
 
 
         initNav(getIntent().getStringExtra("title"));
@@ -134,6 +135,12 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        PhotoActivity.startAct(this, mImgPaths, position);
     }
 
     public static void startAct(Context context, String cardNum) {

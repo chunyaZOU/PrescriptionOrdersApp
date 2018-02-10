@@ -87,17 +87,15 @@ public class MedicalAdapter extends BaseAdapter implements AddView.ChangeListene
                 }
             } else mData.get(position).num = num;
         } else if (mContext instanceof UsualActivity) {
-            if (num > 0) {
-                for (int i = 0; i < mPositions.size(); i++) {
-                    if (mPositions.get(i).intValue() == position) {
-                        mPositions.remove(i);
-                    }
+            for (int i = 0; i < mPositions.size(); i++) {
+                //此条已被选择，则先清除后再添加
+                if (mPositions.get(i).intValue() == position) {
+                    mPositions.remove(i);
                 }
-                mData.get(position).num = num;
-                mPositions.add(position);
-            } else {
-                mPositions.remove(position);
             }
+            mData.get(position).num = num;
+            //只有num>0才被添加
+            if (num > 0) mPositions.add(position);
         }
         setTotalNum0();
         notifyDataSetChanged();

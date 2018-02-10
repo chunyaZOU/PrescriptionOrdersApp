@@ -3,7 +3,6 @@ package com.sy.prescription.config;
 import android.app.Application;
 import android.content.Context;
 
-import com.sy.prescription.util.FrescoHelper;
 import com.sy.prescription.util.ResourceUtil;
 import com.sy.prescription.util.StoragePathHelper;
 import com.sy.prescription.util.StoragePathManager;
@@ -25,7 +24,7 @@ public class IMApplication extends Application {
         //初始化缓存
         StoragePathManager.init(getApplicationContext());
         //Fresoc 初始化
-        FrescoHelper.initFresco(getApplicationContext());
+        //FrescoHelper.initFresco(getApplicationContext());
         ResourceUtil.init(getApplicationContext());
     }
 

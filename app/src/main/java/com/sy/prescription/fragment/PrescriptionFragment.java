@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.cloudcommune.yhonline.imgpicker.ImagePicker;
 import com.cloudcommune.yhonline.imgpicker.bean.ImageItem;
 import com.cloudcommune.yhonline.imgpicker.ui.ImageGridActivity;
+import com.sy.prescription.PhotoActivity;
 import com.sy.prescription.R;
 import com.sy.prescription.adapter.PhotoAdapter;
 import com.sy.prescription.util.ResourceUtil;
@@ -46,7 +48,7 @@ import butterknife.OnClick;
  * Use the {@link PrescriptionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PrescriptionFragment extends BaseFragment {
+public class PrescriptionFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     public static final int MY_PERMISSIONS_WRITE = 3;// 相册
     public static final int MY_PERMISSIONS_CAMERA = 4;// 拍照
@@ -61,7 +63,7 @@ public class PrescriptionFragment extends BaseFragment {
     TextView tvSubmit;
 
     private PhotoAdapter mAdapter;
-    private List<String> mImgPaths;
+    private ArrayList<String> mImgPaths;
 
     private ArrayList<ImageItem> images = null;
 
@@ -110,6 +112,8 @@ public class PrescriptionFragment extends BaseFragment {
         mImgPaths.add(TAKE_PHOTO);
         mAdapter = new PhotoAdapter(mImgPaths, getActivity());
         gv.setAdapter(mAdapter);
+        gv.setOnItemClickListener(this);
+        gv.setOnItemLongClickListener(this);
     }
 
     /**
@@ -239,5 +243,19 @@ public class PrescriptionFragment extends BaseFragment {
     }
 
     private void uploadPhoto(final File file) {
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        PhotoActivity.startAct(getActivity(), mImgPaths, position);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        if (!mImgPaths.get(position).equals(TAKE_PHOTO)) {
+            mImgPaths.remove(position);
+            mAdapter.notifyDataSetChanged();
+        }
+        return true;
     }
 }
