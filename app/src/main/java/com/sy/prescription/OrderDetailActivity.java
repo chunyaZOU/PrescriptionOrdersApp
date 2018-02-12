@@ -80,6 +80,7 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
     @OnClick(R.id.tv_scan)
     public void onTvScanClicked() {
         CaptureActivity.startAct(this, "扫描");
+        //TestActivity.startAct(this);
     }
 
     @OnClick(R.id.tv_usual)

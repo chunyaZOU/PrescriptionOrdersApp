@@ -338,6 +338,14 @@ public class PullRefreshLoadMore extends ListView implements OnScrollListener {
         }
     }
 
+    public LinearLayout getmHeadRootView() {
+        return mHeadRootView;
+    }
+
+    public void setmHeadRootView(LinearLayout mHeadRootView) {
+        this.mHeadRootView = mHeadRootView;
+    }
+
     /**
      * 实例化下拉刷新的箭头的动画效果
      *
