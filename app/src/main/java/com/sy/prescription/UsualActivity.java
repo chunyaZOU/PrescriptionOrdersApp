@@ -3,6 +3,8 @@ package com.sy.prescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.widget.TextView;
 
@@ -57,16 +59,21 @@ public class UsualActivity extends BaseActivity {
 
         lvType.hasMore(true);
         lvType.setLoadingMoreEnabled(true);
-        lvType.setPullRefreshEnabled(true);
+        lvType.setPullRefreshEnabled(false);
         lvType.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
+                lvType.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lvType.loadMoreComplete();
+                    }
+                }, 1000);
             }
         });
         lvType.setLayoutManager(new GridLayoutManager(this, 1));
@@ -89,18 +96,22 @@ public class UsualActivity extends BaseActivity {
         lvMedical.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
+                lvMedical.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lvMedical.loadMoreComplete();
+                    }
+                }, 1000);
             }
         });
         lvMedical.setLayoutManager(new GridLayoutManager(this, 1));
         mMedicalAdapter = new MedicalAdapter(this, mMedicalList);
         lvMedical.setAdapter(mMedicalAdapter);
-
     }
 
     public void setTotalNum(int totalNum) {

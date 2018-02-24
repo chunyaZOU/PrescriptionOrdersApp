@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@drawable/selector_order_item_bg"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
@@ -12,5 +11,10 @@
         android:gravity="center"
         android:padding="@dimen/space_10"
         android:textSize="@dimen/space_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:background="@color/background" />
 
 </LinearLayout>

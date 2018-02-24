@@ -18,18 +18,16 @@
             android:id="@+id/lv_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
             android:layout_weight="1"
-            android:layout_marginTop="-12dp"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@color/background_window"
             android:dividerHeight="1dp"
-            android:fadingEdgeLength="0dp" />
+            android:fadingEdgeLength="0dp"
+            android:scrollbars="none" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-
             android:background="@color/background_window" />
 
         <com.sy.prescription.view.widget.xrecyclerview.XRecyclerView
@@ -37,11 +35,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.2"
-            android:scrollbars="none"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@color/background_window"
             android:dividerHeight="1dp"
-            android:fadingEdgeLength="0dp" />
+            android:fadingEdgeLength="0dp"
+            android:scrollbars="none" />
     </LinearLayout>
 
     <View

@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,7 +112,6 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         lvOrders.setPullRefreshEnabled(true);
         lvOrders.setLoadingListener(this);
         lvOrders.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-
         mAdapter = new OrderAdapter(getActivity(), mOrderList);
         lvOrders.setAdapter(mAdapter);
     }
@@ -232,6 +233,12 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onLoadMore() {
-        lvOrders.loadMoreComplete();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lvOrders.loadMoreComplete();
+            }
+        }, 1000);
+
     }
 }

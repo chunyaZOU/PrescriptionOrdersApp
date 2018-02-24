@@ -59,16 +59,15 @@ public class LoadingMoreFooter extends LinearLayout {
         switch (state) {
             case STATE_LOADING:
                 mText.setText(mContext.getText(R.string.foot_loading));
-                progressCon.setVisibility(View.VISIBLE);
                 setVisibility(View.VISIBLE);
                 break;
             case STATE_COMPLETE:
-                mText.setText(mContext.getText(R.string.foot_loading));
+                //mText.setText(mContext.getText(R.string.foot_loading));
+                //progressCon.setIndeterminateDrawable(null);
                 setVisibility(View.GONE);
                 break;
             case STATE_NO_MORE:
                 mText.setText(mContext.getText(R.string.no_more_loading));
-                progressCon.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
         }

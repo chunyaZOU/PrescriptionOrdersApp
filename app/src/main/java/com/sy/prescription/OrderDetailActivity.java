@@ -3,6 +3,8 @@ package com.sy.prescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -77,6 +79,7 @@ public class OrderDetailActivity extends BaseActivity implements AdapterView.OnI
         lvMedical.setPullRefreshEnabled(false);
         lvMedical.setLoadingMoreEnabled(false);
         mMedicalList = new ArrayList<>();
+        lvMedical.setLayoutManager(new GridLayoutManager(this, 1));
         mAdapter = new MedicalAdapter(this, mMedicalList);
         lvMedical.setAdapter(mAdapter);
     }
@@ -106,13 +109,11 @@ public class OrderDetailActivity extends BaseActivity implements AdapterView.OnI
                     info.name = data.getStringExtra("num");
                     mMedicalList.add(info);
                     mAdapter.setTotalNum0();
-                    mAdapter.notifyDataSetChanged();
                     break;
                 case UsualActivity.FLAG_USUAL:
                     ArrayList<MedicalInfo> medicalInfos = data.getParcelableArrayListExtra("medical_list");
                     mMedicalList.addAll(medicalInfos);
                     mAdapter.setTotalNum0();
-                    mAdapter.notifyDataSetChanged();
                     break;
             }
         }

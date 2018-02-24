@@ -122,6 +122,7 @@ public class XRecyclerView extends RecyclerView {
         if (state == LoadingMoreFooter.STATE_LOADING) {
             mIsLoadingData = true;
             mLoadingListener.onLoadMore();
+            //return;
         }
         View footView = mFootViews.get(0);
         ((LoadingMoreFooter) footView).setState(state);

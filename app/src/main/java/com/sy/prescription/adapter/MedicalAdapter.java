@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sy.prescription.OrderDetailActivity;
@@ -72,7 +71,6 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.ViewHold
         return mData.size();
     }
 
-
     @Override
     public void setNum(int position, int num) {
         if (mContext instanceof OrderDetailActivity) {
@@ -94,12 +92,12 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.ViewHold
             if (num > 0) mPositions.add(position);
         }
         setTotalNum0();
-        notifyDataSetChanged();
     }
 
     public void setTotalNum0() {
         mTotalNum = 0;
         isFirst = true;
+        notifyDataSetChanged();
     }
 
     private void setTotalNum(int num) {
