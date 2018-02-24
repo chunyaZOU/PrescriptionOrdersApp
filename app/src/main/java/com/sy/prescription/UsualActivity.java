@@ -3,16 +3,15 @@ package com.sy.prescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.widget.TextView;
 
 import com.sy.prescription.adapter.MedicalAdapter;
-import com.sy.prescription.adapter.OrderAdapter;
 import com.sy.prescription.adapter.UsualTypeAdapter;
 import com.sy.prescription.model.MedicalInfo;
-import com.sy.prescription.model.OrderInfo;
 import com.sy.prescription.model.UsualType;
 import com.sy.prescription.util.ToastUtil;
-import com.ygs.pullrefreshloadmore.PullRefreshLoadMore;
+import com.sy.prescription.view.widget.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +24,9 @@ public class UsualActivity extends BaseActivity {
 
     public static final int FLAG_USUAL = 1;
     @BindView(R.id.lv_type)
-    PullRefreshLoadMore lvType;
+    XRecyclerView lvType;
     @BindView(R.id.lv_medical)
-    PullRefreshLoadMore lvMedical;
+    XRecyclerView lvMedical;
     @BindView(R.id.tv_num)
     TextView tvNum;
     @BindView(R.id.tv_submit)
@@ -55,25 +54,24 @@ public class UsualActivity extends BaseActivity {
             usualType.typeName = "类型" + i;
             mUsualTypes.add(usualType);
         }
-        mTypeAdapter = new UsualTypeAdapter(this, mUsualTypes);
-        lvType.setAdapter(mTypeAdapter);
-        lvType.setOnRefreshListener(new PullRefreshLoadMore.OnRefreshListener() {
+
+        lvType.hasMore(true);
+        lvType.setLoadingMoreEnabled(true);
+        lvType.setPullRefreshEnabled(true);
+        lvType.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                lvType.onRefreshComplete();
+
             }
-        });
-        lvType.setOnLoadListener(new PullRefreshLoadMore.OnLoadMoreListener() {
+
             @Override
             public void onLoadMore() {
-                lvType.onLoadMoreComplete();
+
             }
         });
-        lvType.setCanLoadMore(true);
-        lvType.setCanRefresh(false);
-        lvType.setAutoLoadMore(true);
-        // 是否自动载入第一页
-        lvType.setDoLoadOnUIChanged();
+        lvType.setLayoutManager(new GridLayoutManager(this, 1));
+        mTypeAdapter = new UsualTypeAdapter(this, mUsualTypes);
+        lvType.setAdapter(mTypeAdapter);
 
 
         mMedicalList = new ArrayList<>();
@@ -84,25 +82,24 @@ public class UsualActivity extends BaseActivity {
             mMedicalList.add(orderInfo);
         }
 
-        mMedicalAdapter = new MedicalAdapter(this, mMedicalList);
-        lvMedical.setAdapter(mMedicalAdapter);
-        lvMedical.setOnRefreshListener(new PullRefreshLoadMore.OnRefreshListener() {
+
+        lvMedical.hasMore(true);
+        lvMedical.setLoadingMoreEnabled(true);
+        lvMedical.setPullRefreshEnabled(true);
+        lvMedical.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                lvMedical.onRefreshComplete();
+
             }
-        });
-        lvMedical.setOnLoadListener(new PullRefreshLoadMore.OnLoadMoreListener() {
+
             @Override
             public void onLoadMore() {
-                lvMedical.onLoadMoreComplete();
+
             }
         });
-        lvMedical.setCanLoadMore(true);
-        lvMedical.setCanRefresh(false);
-        lvMedical.setAutoLoadMore(true);
-        // 是否自动载入第一页
-        lvMedical.setDoLoadOnUIChanged();
+        lvMedical.setLayoutManager(new GridLayoutManager(this, 1));
+        mMedicalAdapter = new MedicalAdapter(this, mMedicalList);
+        lvMedical.setAdapter(mMedicalAdapter);
 
     }
 

@@ -58,7 +58,6 @@
         <activity android:name=".OrderDetailActivity" />
         <activity android:name=".UsualActivity" />
         <activity android:name=".PhotoActivity" />
-        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

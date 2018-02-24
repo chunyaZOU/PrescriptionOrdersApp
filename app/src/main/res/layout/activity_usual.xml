@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <com.ygs.pullrefreshloadmore.PullRefreshLoadMore
+        <com.sy.prescription.view.widget.xrecyclerview.XRecyclerView
             android:id="@+id/lv_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
 
             android:background="@color/background_window" />
 
-        <com.ygs.pullrefreshloadmore.PullRefreshLoadMore
+        <com.sy.prescription.view.widget.xrecyclerview.XRecyclerView
             android:id="@+id/lv_medical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

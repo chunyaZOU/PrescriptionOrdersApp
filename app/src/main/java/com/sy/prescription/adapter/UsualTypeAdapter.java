@@ -1,19 +1,15 @@
 package com.sy.prescription.adapter;
 
 import android.content.Context;
-import android.view.Gravity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sy.prescription.OrderDetailActivity;
 import com.sy.prescription.R;
-import com.sy.prescription.model.OrderInfo;
 import com.sy.prescription.model.UsualType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by ygs on 2018/2/3.
  */
 
-public class UsualTypeAdapter extends BaseAdapter {
+public class UsualTypeAdapter extends RecyclerView.Adapter<UsualTypeAdapter.ViewHolder> {
 
 
     private Context mContext;
@@ -37,33 +33,17 @@ public class UsualTypeAdapter extends BaseAdapter {
         mInflate = LayoutInflater.from(context);
     }
 
+
     @Override
-    public int getCount() {
-        return mData.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflate.inflate(R.layout.view_type_item, null);
+        return new ViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return mData.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder = null;
-        if (view == null) {
-            view = mInflate.inflate(R.layout.view_type_item, null);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-        holder.tvText.setTag(i + "");
-        if (i == mSelectedPos) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tvText.setTag(position + "");
+        if (position == mSelectedPos) {
             holder.tvText.setSelected(true);
         } else {
             holder.tvText.setSelected(false);
@@ -73,7 +53,7 @@ public class UsualTypeAdapter extends BaseAdapter {
         } else {
             holder.tvText.setTextColor(mContext.getResources().getColor(R.color.black_light));
         }
-        final UsualType usualType = mData.get(i);
+        final UsualType usualType = mData.get(position);
         holder.tvText.setText(usualType.typeName);
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,15 +66,25 @@ public class UsualTypeAdapter extends BaseAdapter {
                 }
             }
         });
-        return view;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
     }
 
 
-    static class ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text)
         TextView tvText;
 
         ViewHolder(View view) {
+            super(view);
             ButterKnife.bind(this, view);
         }
     }

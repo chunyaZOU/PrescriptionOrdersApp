@@ -1,6 +1,7 @@
 package com.sy.prescription.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by ygs on 2018/2/3.
  */
 
-public class MedicalAdapter extends BaseAdapter implements AddView.ChangeListener {
+public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.ViewHolder> implements AddView.ChangeListener {
 
     private Context mContext;
     private List<MedicalInfo> mData;
@@ -39,14 +40,26 @@ public class MedicalAdapter extends BaseAdapter implements AddView.ChangeListene
         mPositions = new ArrayList<>();
     }
 
+
     @Override
-    public int getCount() {
-        return mData.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflate.inflate(R.layout.view_medical_layout, null);
+        return new ViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return mData.get(i);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        MedicalInfo orderInfo = mData.get(position);
+        holder.tvName.setText(orderInfo.name);
+        holder.addView.setTag(position + "");
+        holder.addView.setmListener(this);
+        holder.addView.setmNum(orderInfo.num);
+        if (isFirst) {
+            if (position == mData.size() - 1) {
+                isFirst = false;
+            }
+            setTotalNum(holder.addView.getmNum());
+        }
     }
 
     @Override
@@ -55,27 +68,10 @@ public class MedicalAdapter extends BaseAdapter implements AddView.ChangeListene
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder = null;
-        if (view == null) {
-            view = mInflate.inflate(R.layout.view_medical_layout, null);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        } else
-            holder = (ViewHolder) view.getTag();
-        MedicalInfo orderInfo = mData.get(i);
-        holder.tvName.setText(orderInfo.name);
-        holder.addView.setTag(i + "");
-        holder.addView.setmListener(this);
-        holder.addView.setmNum(orderInfo.num);
-        if (isFirst) {
-            if (i == mData.size() - 1) {
-                isFirst = false;
-            }
-            setTotalNum(holder.addView.getmNum());
-        }
-        return view;
+    public int getItemCount() {
+        return mData.size();
     }
+
 
     @Override
     public void setNum(int position, int num) {
@@ -123,13 +119,14 @@ public class MedicalAdapter extends BaseAdapter implements AddView.ChangeListene
         this.mPositions = mPositions;
     }
 
-    static class ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.add_view)
         AddView addView;
 
         ViewHolder(View view) {
+            super(view);
             ButterKnife.bind(this, view);
         }
     }

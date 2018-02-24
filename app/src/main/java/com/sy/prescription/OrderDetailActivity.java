@@ -13,7 +13,7 @@ import com.sy.prescription.adapter.MedicalAdapter;
 import com.sy.prescription.adapter.PhotoAdapter;
 import com.sy.prescription.model.MedicalInfo;
 import com.sy.prescription.util.ToastUtil;
-import com.ygs.pullrefreshloadmore.PullRefreshLoadMore;
+import com.sy.prescription.view.widget.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class OrderDetailActivity extends BaseActivity implements PullRefreshLoadMore.OnRefreshListener, PullRefreshLoadMore.OnLoadMoreListener, AdapterView.OnItemClickListener {
+public class OrderDetailActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @BindView(R.id.gv)
     GridView gv;
@@ -34,7 +34,7 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
     @BindView(R.id.tv_usual)
     TextView tvUsual;
     @BindView(R.id.lv_medical)
-    PullRefreshLoadMore lvMedical;
+    XRecyclerView lvMedical;
     @BindView(R.id.tvLeft)
     TextView tvLeft;
     @BindView(R.id.tvMiddle)
@@ -72,6 +72,10 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
 
 
         initNav(getIntent().getStringExtra("title"));
+
+        lvMedical.hasMore(false);
+        lvMedical.setPullRefreshEnabled(false);
+        lvMedical.setLoadingMoreEnabled(false);
         mMedicalList = new ArrayList<>();
         mAdapter = new MedicalAdapter(this, mMedicalList);
         lvMedical.setAdapter(mAdapter);
@@ -86,16 +90,6 @@ public class OrderDetailActivity extends BaseActivity implements PullRefreshLoad
     @OnClick(R.id.tv_usual)
     public void onTvUsualClicked() {
         UsualActivity.startAct(this);
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
-    public void onLoadMore() {
-
     }
 
     public void setTotalNum(int totalNum) {

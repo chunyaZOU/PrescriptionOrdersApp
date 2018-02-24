@@ -73,7 +73,7 @@
 
     </LinearLayout>
 
-    <com.ygs.pullrefreshloadmore.PullRefreshLoadMore
+    <com.sy.prescription.view.widget.xrecyclerview.XRecyclerView
         android:id="@+id/lv_medical"
         android:layout_width="match_parent"
         android:layout_height="0dp"

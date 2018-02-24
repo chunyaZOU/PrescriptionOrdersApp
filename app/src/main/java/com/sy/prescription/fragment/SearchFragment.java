@@ -3,10 +3,9 @@ package com.sy.prescription.fragment;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 import com.sy.prescription.R;
 import com.sy.prescription.adapter.OrderAdapter;
 import com.sy.prescription.model.OrderInfo;
-import com.ygs.pullrefreshloadmore.PullRefreshLoadMore;
+import com.sy.prescription.view.widget.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +34,7 @@ import butterknife.OnClick;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends BaseFragment implements View.OnClickListener, PullRefreshLoadMore.OnLoadMoreListener, PullRefreshLoadMore.OnRefreshListener {
+public class SearchFragment extends BaseFragment implements View.OnClickListener, XRecyclerView.LoadingListener {
 
 
     @BindView(R.id.tv_start_date)
@@ -49,7 +48,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     @BindView(R.id.tv_success)
     TextView tvSuccess;
     @BindView(R.id.lv_orders)
-    PullRefreshLoadMore lvOrders;
+    XRecyclerView lvOrders;
 
     private boolean isStartDate = true;
 
@@ -106,16 +105,14 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
             mOrderList.add(orderInfo);
         }
 
+        lvOrders.hasMore(true);
+        lvOrders.setLoadingMoreEnabled(true);
+        lvOrders.setPullRefreshEnabled(true);
+        lvOrders.setLoadingListener(this);
+        lvOrders.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         mAdapter = new OrderAdapter(getActivity(), mOrderList);
         lvOrders.setAdapter(mAdapter);
-        lvOrders.setOnRefreshListener(this);
-        lvOrders.setOnLoadListener(this);
-        lvOrders.setCanLoadMore(true);
-        lvOrders.setCanRefresh(true);
-        lvOrders.setAutoLoadMore(true);
-        // 是否自动载入第一页
-        lvOrders.setDoLoadOnUIChanged();
     }
 
 
@@ -229,12 +226,12 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     public void onRefresh() {
         mAdapter.setmSuccessFlag(OrderAdapter.FLAG_ALL);
         tvSuccess.setText("是否成交");
-        lvOrders.onRefreshComplete();
         mAdapter.notifyDataSetChanged();
+        lvOrders.refreshComplete();
     }
 
     @Override
     public void onLoadMore() {
-        lvOrders.onLoadMoreComplete();
+        lvOrders.loadMoreComplete();
     }
 }
