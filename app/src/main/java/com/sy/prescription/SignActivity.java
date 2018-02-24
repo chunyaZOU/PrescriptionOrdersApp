@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sy.prescription.config.IMApplication;
 import com.sy.prescription.presenter.SignPresenter;
 import com.sy.prescription.util.PreferenceUtil;
 import com.sy.prescription.util.ToastUtil;
